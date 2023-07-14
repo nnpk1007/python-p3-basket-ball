@@ -90,11 +90,10 @@ def game_dict():
                 },
             ],
         },
-            
         "away": {
             "team_name": "Washington Wizards",
             "colors": ["Red", "White", "Navy Blue"],
-            "players": [   
+            "players": [
                 {
                     "name": "Bradley Beal",
                     "number": 3,
@@ -179,6 +178,123 @@ def game_dict():
                     "height_inches": 80,
                     "shoe_brand": "Jordan",
                 },
-            ]
-        }
+            ],
+        },
     }
+
+
+game_data = game_dict()
+
+
+def get_all_players(team):
+    return game_data[team]["players"]
+
+
+home_players = get_all_players("home")
+away_players = get_all_players("away")
+all_players = home_players + away_players
+print(all_players)
+
+# Build a function, num_points_per_game() that takes in an argument of a player's name
+# and returns the number of points per game for that player.
+
+
+def num_points_per_game(player_name):
+    for player in all_players:
+        if player_name == player["name"]:
+            return player["points_per_game"]
+
+
+# Build a function, player_age(), that takes in an argument of a player's name and returns that player's age.
+
+
+def player_age(player_name):
+    for player in all_players:
+        if player_name == player["name"]:
+            return player["age"]
+
+
+# Build a function, team_colors(), that takes in an argument of the team name and returns a list of that team's colors.
+
+
+def team_colors(team_name):
+    for team in game_data:
+        if game_data[team]["team_name"] == team_name:
+            return game_data[team]["colors"]
+
+
+# Build a function, team_names(), that operates on the dictionary to return a list of the team names.
+
+
+def team_names():
+    team_names_list = []
+
+    for team in game_data:
+        team_names_list.append(game_data[team]["team_name"])
+
+    return team_names_list
+
+
+# Build a function, player_numbers(),
+# that takes in an argument of a team name and returns a list of the jersey numbers for that team.
+
+
+def player_numbers(team_name):
+    jersey_numbers = []
+
+    for team in game_data:
+        if game_data[team]["team_name"] == team_name:
+            for player in game_data[team]["players"]:
+                jersey_numbers.append(player["number"])
+
+    return jersey_numbers
+
+
+# Build a function, player_stats(),
+# that takes in an argument of a player's name and returns a dictionary of that player's stats.
+
+
+def player_stats(player_name):
+    for player in all_players:
+        if player_name == player["name"]:
+            return player
+
+
+# Build a function, average_rebounds_by_shoe_brand(),
+# that will calculate the average number of rebounds for players who wear a particular shoe brand.
+# The function should print out a message for each brand using the following format:
+# "<Brand>": average_rebounds
+# The average should be printed as a float with two decimal places.
+
+
+def average_rebounds_by_shoe_brand():
+    # Create an empty dictionary named brand_rebounds to store the total rebounds for each shoe brand.
+    brand_rebounds = {}
+
+    # Create an empty dictionary named brand_counts to store the count of players for each shoe brand.
+    brand_counts = {}
+
+    # loop through all players
+    for player in all_players:
+        shoe_brand = player["shoe_brand"]
+        rebound = player["rebounds_per_game"]
+
+        # If the shoe brand exists in brand_rebounds and brand_counts dictionaries:
+        # Increment the rebounds for that shoe brand in brand_rebounds by the player's rebounds.
+        # Increment the count for that shoe brand in brand_counts by 1.
+        if shoe_brand in brand_rebounds and shoe_brand in brand_counts:
+            brand_rebounds[shoe_brand] += rebound
+            brand_counts[shoe_brand] += 1
+        # If the shoe brand does not exist in brand_rebounds and brand_counts dictionaries:
+        # Add the shoe brand as a key to brand_rebounds with the player's rebounds as the initial value.
+        # Add the shoe brand as a key to brand_counts with 1 as the initial value.
+        else:
+            brand_rebounds[shoe_brand] = rebound
+            brand_counts[shoe_brand] = 1
+
+    for brand in brand_rebounds:
+        average_rebounds_by_brand = brand_rebounds[brand] / brand_counts[brand]
+        print(f"{brand}: {average_rebounds_by_brand: .2f}")
+
+
+average_rebounds_by_shoe_brand()
